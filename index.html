@@ -1,76 +1,65 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <title>Contact Book App</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="style.css">
-
-</head>
-
-<body class="body-home" onload="fetchContacts()">
-
-    <div id="main-content">
-
-        <div class="container-fluid">
-            <div class="col-12">
-                <h3 class="heading-home">My Contact Book <strong style="color: green">+Plus</strong></h3>
-            </div>
+<html>
+    <head>
+        <meta charset= "UTF-8">
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/custom.css">
+        <link href="font-awesome/css/all.css" rel="stylesheet">
+        <title></title>       
+    </head>
+    <body onload="fetchContacts()">
+        <div id="menu">
+            <ul>
+                <li><a href="#">HOME<i class="fas fa-home"></i></a></li>
+                <li><a href="add-contact.html">CONTACT<i class="fas fa-phone"></i></a></li>
+            </ul>
         </div>
-
-        <div id="table" style="color: white">Contacts loading...</div>
-
-        <button id="addContact" type="button">Add Contact</button>
+        <div class="container">
+        <div id="table">Contacts loading....</div>
         <button id="refresh" type="button">Refresh</button>
-
+        <button id="addContact" type="button">Add Contact</button>
 
     </div>
-    <script src="config.js"></script>
-    <script>
-        document.getElementById("addContact").addEventListener('click', addContact);
-        document.getElementById("refresh").addEventListener('click', fetchContacts);
 
+        <script src="config.js"></script>
+        <script>
+            document.getElementById("refresh").addEventListener('click', fetchContacts);
+            document.getElementById("addContact").addEventListener('click', addContact);
 
-        function fetchContacts() {
-            fetch(rootPath + "controller/get-contacts/")
-                .then(function(response) {
+            function fetchContacts(){
+                fetch(rootPath +"controller/get-contacts/")
+                .then(function(response){
                     return response.json();
                 })
-                .then(function(data) {
-                    dispalyOutput(data);
-                    //console.log(data);
+                .then(function(data){
+                    displayOutput(data);
                 })
-        }
-
-        function dispalyOutput(data) {
-            output = "<table>";
-
-            for (a in data) {
-                output += `
-                        <tr onclick="editContact(${data[a].id})">
-                            <td><img src="${rootPath}controller/uploads/${data[a].avatar}" width="150" id="book-img"/></td>
-                            <td><h5>${data[a].firstname}</h5></td>
-                            <td><h5>${data[a].lastname}</h5></td>
-                        </tr>
-                    `
             }
-            output += "</table>";
-            document.getElementById("table").innerHTML = output;
-        }
 
-        function addContact() {
-            window.open("addcontact.html", "_self");
-        }
+            function displayOutput(data){
+                output = "<table>";
 
-        function editContact(id) {
-            window.open("edit-contact.html?id=" + id, "_self");
-        }
+                    for(a in data){
+                        output += `
+                            <tr onclick="editContact(${data[a].id})">
+                                <td><img src="${rootPath}controller/uploads/${data[a].avatar}" width = "40"/></td>
+                                <td><h5>${data[a].firstname}</h5></td>
+                                <td><h5>${data[a].lastname}</h5></td>
+                            </tr>
+                     
+                        `
+                    }
+                    output += "</table>";
+                    document.getElementById("table").innerHTML = output;
+                    
+                }
+                function addContact(){
+                    window.open("add-contact.html", "_self");
 
-    </script>
+                }
+                function editContact(id){
+                    window.open("edit-contact.html?id=" + id, "_self");
+                }
 
-
-</body>
-© kelebohie Mbewo all rights reserved
+        </script>
+    </body>
 </html>
